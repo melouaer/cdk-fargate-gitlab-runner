@@ -1,0 +1,35 @@
+# This file is the template for our runner configuration
+# Important: variables following the pattern "${VARIABLE_NAME}" will be
+# automatically replaced by the correct values during the entrypoint script
+
+concurrent = 10
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "${RUNNER_NAME}"
+  url = "${GITLAB_URL}/"
+  token = "${RUNNER_AUTH_TOKEN}"
+  executor = "custom"
+  builds_dir = "/opt/gitlab-runner/builds"
+  cache_dir = "/opt/gitlab-runner/cache"
+  [runners.custom]
+    config_exec = "/usr/local/bin/fargate-linux-amd64"
+    config_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "config"]
+    prepare_exec = "/usr/local/bin/fargate-linux-amd64"
+    prepare_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "prepare"]
+    run_exec = "/usr/local/bin/fargate-linux-amd64"
+    run_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "run"]
+    cleanup_exec = "/usr/local/bin/fargate-linux-amd64"
+    cleanup_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "cleanup"]
+  [runners.cache]
+    Type = "s3"
+    Path = "gitlab-cache/"
+    Shared = false
+    [runners.cache.s3]
+      ServerAddress = "s3.amazonaws.com"
+      BucketName = "${CACHE_BUCKET}"
+      BucketLocation = "${CACHE_BUCKET_REGION}"
+      Insecure = false

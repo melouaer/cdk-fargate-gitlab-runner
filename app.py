@@ -57,7 +57,7 @@ if not props["bastion"]["VpcId"]:
     raise ValueError("VPC_ID is mondatory cdk deploy -c vpcId=<YOUR_VPC_ID>")
 
 GitlabCiFargateRunnerStack(
-    app, f"GitlabrunnerBastionStack", env=env, props=props.get("bastion")
+    app, f"GitlabrunnerStack", env=env, props=props.get("bastion")
 )
 
 if app.node.try_get_context("DockerImageName"):
@@ -68,7 +68,10 @@ if app.node.try_get_context("CPU"):
     props["bastion"]["task_definition_cpu"] = app.node.try_get_context("CPU")
 
 TaskDefinitionStack(
-    app, f"{props['bastion']['docker_image_name']}TaskDefinitionStack", env=env, props=props.get("bastion")
+    app,
+    f"{props['bastion']['docker_image_name']}TaskDefinitionStack",
+    env=env,
+    props=props.get("bastion"),
 )
 
 app.synth()

@@ -58,6 +58,8 @@ Check your Python version:
       gitlab_server: Gitlab server name (ex, gitlab.com)
       gitlab_runner_token_secret_name: Secret Manager secret name for gitlab token
       runner_tags: Gitlab ci tags that are used in .gitlab-ci.yml
+      runner_cpu: the cpu size of the Fargate Runner
+      runner_memory: the memory size of the Fargate Fargate Runner
       runner_log_output_limit: Limit for console output log (4096)  see (https://docs.gitlab.com/runner/configuration/advanced-configuration.html)
       concurrent_jobs: Number of concurent jobs for this runner
       default_ssh_username: root
@@ -80,14 +82,15 @@ Check your Python version:
     ``` 
     # pipenv run cdk deploy -c DockerImageName=docker_image_name -c Memory=1024 -c CPU=512  {docker_image_name}TaskDefinitionStack
     ``` 
-    Where docker_image_name to the name of the docker image found in the directory `docker_images`
+    Where docker_image_name to the name of the docker image found in the directory `docker_images`  
+    You can add ![task_role_policies.j2](/docker_images/demo/task_role_policies.j2) within your docker image directory. This will assign new policies to the deployed task definition.  
 ### Testing
 Add  .gitlab_ci.yml to your project 
 ```yaml
 ---
     variables:
-# Add variable FARGATE_TASK_DEFINITION to the task definition revision deployed in the stack above.
-# This variable can also be redefined per job.
+    # Add variable FARGATE_TASK_DEFINITION to the task definition revision deployed in the stack above.
+    # This variable can also be redefined per job.
       FARGATE_TASK_DEFINITION: "amazonlinux:1"
     stages:         
       - build

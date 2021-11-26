@@ -1,0 +1,21 @@
+# This file is the template for our driver configuration
+# Important: variables following the pattern "${VARIABLE_NAME}" will be
+# automatically replaced by the correct values during the entrypoint script
+
+LogLevel = "info"
+LogFormat = "text"
+
+[Fargate]
+    cluster = "${FARGATE_CLUSTER}"
+    region = "${FARGATE_REGION}"
+    subnet = "${FARGATE_SUBNET}"
+    securityGroup = "${FARGATE_SECURITY_GROUP}"
+    TaskDefinition = "${FARGATE_TASK_DEFINITION}"
+    EnablePublicIP = false
+
+[TaskMetadata]
+    Directory = "/tmp/"
+
+[SSH]
+    Username = "root"
+    Port = 22
