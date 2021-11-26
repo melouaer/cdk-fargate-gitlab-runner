@@ -39,26 +39,6 @@ class TaskDefinitionStack(cdk.Stack):
     ) -> None:
         super().__init__(scope, construct_id, env=env, **kwargs)
         try:
-
-            # fargate Execution role policies
-            # self.fargate_task_role_policies = {
-            #    "taskRolePolicies": iam.PolicyDocument(
-            #        statements=[
-            #            iam.PolicyStatement(
-            #                effect=iam.Effect.ALLOW,
-            #                actions=[
-            #                    "logs:CreateLogGroup",
-            #                    "logs:CreateLogStream",
-            #                    "logs:DescribeLogStreams",
-            #                    "logs:PutLogEvents",
-            #                ],
-            #                resources=[
-            #                    f"arn:aws:logs:{self.region}:{self.account}:log-group:/gitlab-fargate-runner/*"
-            #                ],
-            #            )
-            #        ]
-            #    )
-            # }
             self.fargate_execution_role = iam.Role(
                 self,
                 "GitlabExecutionRole",
