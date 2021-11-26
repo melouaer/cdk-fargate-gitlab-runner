@@ -20,6 +20,7 @@ from aws_cdk import core as cdk
 from aws_cdk.aws_ec2 import InitCommand, SubnetType
 import os
 import sys
+import boto3
 from aws_cdk import (
     core,
     aws_ec2 as ec2,
@@ -182,9 +183,7 @@ class GitlabCiFargateRunnerStack(cdk.Stack):
                     environment=runner_environment,
                     secrets=runner_secrets,
                 )
-                self.fargate_task_definitions[az].apply_removal_policy(
-                    cdk.RemovalPolicy.RETAIN
-                )
+
                 # ECS Service definition
                 subnets = ec2.SubnetSelection(subnets=vpc_subnets.subnets)
                 self.fargate_services[az] = ecs.FargateService(
@@ -214,6 +213,7 @@ class GitlabCiFargateRunnerStack(cdk.Stack):
                 "fargate_task_definitions"
             ] = self.fargate_task_definitions
             self.output_props["fargate_services"] = self.fargate_services
+
         except:
             print("Unexpected error:", sys.exc_info()[0])
             raise
