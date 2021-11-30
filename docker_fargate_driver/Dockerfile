@@ -1,4 +1,5 @@
-FROM gitlab/gitlab-runner:v14.5.0
+ARG GITLAB_RUNNER_VERSION=v14.5.0
+FROM gitlab/gitlab-runner:$GITLAB_RUNNER_VERSION
 
 # Install AWS CLI
 RUN apt-get update && \
