@@ -39,6 +39,8 @@ RUN chmod +x /usr/local/bin/fargate-linux-amd64
 # for reference.
 # -------------------------------------------------------------------------------------
 COPY docker-entrypoint.sh /usr/local/bin/
+COPY delay_run.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/delay_run.sh \
     && ln -s /usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["dumb-init", "docker-entrypoint.sh"]

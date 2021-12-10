@@ -18,7 +18,8 @@ check_interval = 0
   [runners.custom]
     config_exec = "/usr/local/bin/fargate-linux-amd64"
     config_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "config"]
-    prepare_exec = "/usr/local/bin/fargate-linux-amd64"
+    #prepare_exec = "/usr/local/bin/fargate-linux-amd64"
+    prepare_exec = "/usr/local/bin/delay_run.sh"
     prepare_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "prepare"]
     run_exec = "/usr/local/bin/fargate-linux-amd64"
     run_args = ["--config", "/etc/gitlab-runner/config_driver.toml", "custom", "run"]
